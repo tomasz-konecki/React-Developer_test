@@ -1,2 +1,2 @@
-# React-Developer_test
-React developer - test
+# react-webpack-scss
+React Webpack Scss App

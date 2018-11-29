@@ -1,26 +1,24 @@
 {
-  "name": "react-developer_test",
+  "name": "solution",
   "version": "1.0.0",
-  "description": "React developer - test",
+  "description": "React-Developer_test",
   "main": "index.js",
   "scripts": {
-    "prestart": "babel-node tools/startMessage.js",
     "start": "npm-run-all --parallel webpack lint:watch",
     "lint": "node_modules/.bin/esw webpack.config.* src tools",
     "lint:watch": "npm run lint -- --watch",
     "test": "babel-node mocha --reporter progress tools/testSetup.js \"src/**/*.test.js\"",
-    "webpack": "webpack-dev-server --inline --hot --config ./webpack.config.js",
+    "webpack": "webpack-dev-server --inline --hot --port 9000 --host 0.0.0.0 --config ./webpack.config.js",
     "build": "SET NODE_ENV=production & webpack"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tomasz-konecki/React-Developer_test.git"
   },
-  "author": "TK",
+  "author": "me",
   "license": "ISC",
   "devDependencies": {
     "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.0",
@@ -45,12 +43,18 @@
     "webpack-dev-server": "^2.8.2"
   },
   "dependencies": {
+    "babel-core": "^6.26.0",
+    "bootstrap": "4.0.0",
+    "jquery": "^3.3.1",
+    "popper.js": "^1.14.1",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
-    "react-dom": "^16.2.0"
+    "react-dom": "^16.2.0",
+    "source-map-loader": "^0.2.3"
   },
   "bugs": {
-    "url": "https://github.com/tomasz-konecki/React-Developer_test/issues"
+    "url": "https://github.com/tomasz-konecki/Solution/issues"
   },
-  "homepage": "https://github.com/tomasz-konecki/React-Developer_test#readme"
+  "homepage": "https://github.com/tomasz-konecki/Solution#readme",
+  "keywords": []
 }

@@ -4,10 +4,43 @@
 body {
   background: #222;
   font-family: "Roboto", sans-serif;
-}
+  color: #adf;
 
-h2 {
-  color: #36ff36;
+  .App {
+    padding: 15px;
+
+    input {
+      background: lightgray;
+      margin-bottom: 15px;
+      &:focus {
+        background: white;
+      }
+    }
+
+    .person {
+      h6 {
+        display: inline;
+      }
+      h6:first-of-type {
+        margin-right: 5px;
+      }
+      h6:nth-of-type(2) {
+        &::after {
+          content: " age:";
+          color: gray;
+          font-size: 12px;
+          padding: 0 5px;
+        }
+      }
+      h6:nth-of-type(3) {
+        font-size: 13px;
+      }
+    }
+    .description {
+      font-size: 12px;
+      color: lightgray;
+    }
+  }
 }
 
 ::selection {
