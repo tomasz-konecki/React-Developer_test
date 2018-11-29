@@ -4,6 +4,7 @@ import { Form, Input, FormGroup, Container, Label, Button } from "reactstrap";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
 import "./scss/App.scss";
+const axios = require("axios");
 
 const url = "http://idr.intevi.uk/api/readings";
 const id = "2f3fbe5ca313a4";
@@ -15,15 +16,9 @@ class App extends Component {
   }
 
   handleChange = e => {
-    console.log("handleChange invoked...", e.target.name, e.target.value);
-    this.setState(
-      {
-        [e.target.name]: e.target.value
-      },
-      () => {
-        console.log(this.state);
-      }
-    );
+    this.setState({
+      [e.target.name]: e.target.value
+    });
   };
 
   handleFormSubmit = e => {
@@ -34,13 +29,24 @@ class App extends Component {
   createQuery = () => {
     let { firstDate, lastDate, group } = this.state;
     let query = `${url}?id=${id}&from=${firstDate}&to=${lastDate}&sort=1&group=${group}&sort=1`;
-    console.log(query);
+    this.getData(query);
+  };
+
+  getData = url => {
+    console.log(url);
+
+    axios({
+      method: "get",
+      url
+    }).then(function(response) {
+      console.log(response.data);
+    });
   };
 
   render() {
     return (
       <div className="App-container">
-        <h3>React Developer Test</h3>
+        <h4>React Developer test</h4>
         <Container>
           <Form onSubmit={this.handleFormSubmit}>
             <FormGroup>
