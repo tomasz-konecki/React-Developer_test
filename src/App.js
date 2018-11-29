@@ -34,11 +34,10 @@ class App extends Component {
 
   getData = url => {
     console.log(url);
-
     axios({
       method: "get",
       url
-    }).then(function(response) {
+    }).then(response => {
       console.log(response.data);
     });
   };
