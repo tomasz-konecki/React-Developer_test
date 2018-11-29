@@ -1,0 +1,15 @@
+// @import "3rd/Reset.scss";
+// @import url("https://fonts.googleapis.com/css?family=Roboto+Condensed");
+
+body {
+  background: #222;
+  font-family: "Roboto", sans-serif;
+}
+
+h2 {
+  color: #36ff36;
+}
+
+::selection {
+  background: #ffb97c; /* WebKit/Blink Browsers */
+}
