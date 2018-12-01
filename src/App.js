@@ -1,61 +1,106 @@
 import React, { Component } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Form, Input, FormGroup, Container, Label, Button } from "reactstrap";
+import Select from "react-select";
+import DatePicker from "react-datepicker";
 import "./scss/App.scss";
-// import Filter from "./components/Filter";
-import people from "./data/people";
+import Loader from "./components/Loader";
+import Table from "./components/Table";
+const axios = require("axios");
 
-// function searchingFor(term) {
-//   return function(x) {
-//     return x.first.toLowerCase().includes(term.toLowerCase()) || !term;
-//   };
-// }
+const APIurl = "http://idr.intevi.uk/api/readings";
+const APIid = "2f3fbe5ca313a4";
 
 class App extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      people,
-      term: "",
-      description: false
+      firstDate: "",
+      lastDate: "",
+      group: "hour",
+      order: "ascending",
+      data: [],
+      isLoading: false
     };
   }
 
-  setFlag = value => {
-    console.log(value);
-    let flag = this.state.description;
+  handleChange = e => {
     this.setState({
-      description: flag ? false : true
+      [e.target.name]: e.target.value
     });
   };
 
-  searchingFor = term => x =>
-    x.first.toLowerCase().includes(term.toLowerCase()) ||
-    x.last.toLowerCase().includes(term.toLowerCase());
+  handleFormSubmit = e => {
+    e.preventDefault();
+    this.setState({ isLoading: true }, () => this.createQuery());
+  };
 
-  searchHandler = e => {
-    this.setState({
-      term: e.target.value
-    });
+  createQuery = () => {
+    let { firstDate, lastDate, group, order } = this.state;
+    let sort = order === "ascending" ? 1 : -1;
+    let query = `${APIurl}?id=${APIid}&from=${firstDate}&to=${lastDate}&sort=${sort}&group=${group}&sort=${sort}`;
+    this.getData(query);
+  };
+
+  getData = url => {
+    console.log(url);
+    axios({
+      method: "get",
+      url
+    })
+      .then(response =>
+        this.setState({ data: response.data, isLoading: false })
+      )
+      .catch(err => console.log(err));
   };
 
   render() {
-    const { term, people, description } = this.state;
+    let { isLoading, data } = this.state;
     return (
-      <div className="App">
-        <input type="text" onChange={this.searchHandler} />
+      <div className="App-container">
+        <h4>React Developer test</h4>
 
-        {people.filter(this.searchingFor(term)).map(person => (
-          <div
-            className="person"
-            key={person.id}
-            onClick={() => this.setFlag(person.id)}
-          >
-            <h6>{person.first}</h6>
-            <h6>{person.last}</h6>
-            <h6>{person.age}</h6>
-            {description && <p className="description">Lorem ipsum</p>}
-          </div>
-        ))}
+        <Form onSubmit={this.handleFormSubmit}>
+          <FormGroup>
+            <Label for="firstDate">From: </Label>
+            <Input type="date" name="firstDate" onChange={this.handleChange} />
+          </FormGroup>
+          <FormGroup>
+            <Label for="lastDate">To: </Label>
+            <Input type="date" name="lastDate" onChange={this.handleChange} />
+          </FormGroup>
+          <FormGroup>
+            <Label for="group">Group by:</Label>
+            <select
+              name="group"
+              className="form-control"
+              onChange={this.handleChange}
+            >
+              <option>hour</option>
+              <option>day</option>
+              <option>week</option>
+              <option>month</option>
+              <option>year</option>
+            </select>
+          </FormGroup>
+          <FormGroup>
+            <Label for="order">Order:</Label>
+            <select
+              name="order"
+              className="form-control"
+              onChange={this.handleChange}
+            >
+              <option>ascending</option>
+              <option>descending</option>
+            </select>
+          </FormGroup>
+          <button type="submit" className="btn btn-primary">
+            Submit
+          </button>
+        </Form>
+
+        {isLoading && <Loader />}
+        {data.length > 0 && <Table data={data} />}
       </div>
     );
   }

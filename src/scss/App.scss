@@ -3,42 +3,58 @@
 
 body {
   background: #222;
-  font-family: "Roboto", sans-serif;
+  font-family: "Imago", sans-serif;
   color: #adf;
 
-  .App {
-    padding: 15px;
+  .App-container {
+    padding: 70px;
 
-    input {
-      background: lightgray;
-      margin-bottom: 15px;
-      &:focus {
-        background: white;
-      }
+    h4 {
+      color: #00c0ff;
+      font-weight: bold;
+      letter-spacing: 0.1em;
     }
 
-    .person {
-      h6 {
-        display: inline;
-      }
-      h6:first-of-type {
-        margin-right: 5px;
-      }
-      h6:nth-of-type(2) {
-        &::after {
-          content: " age:";
-          color: gray;
-          font-size: 12px;
-          padding: 0 5px;
+    form {
+      display: flex;
+      margin-top: 50px;
+
+      .form-group {
+        display: flex;
+        label,
+        input,
+        select {
+          margin-right: 20px;
+        }
+
+        input {
+          width: 170px;
+        }
+
+        label {
+          padding-top: 6px;
+        }
+
+        select {
+          width: 130px;
+          margin-right: 20px;
+          height: 40px;
+        }
+
+        input,
+        select {
+          background: lightgray;
+          &:focus {
+            background: white;
+          }
         }
       }
-      h6:nth-of-type(3) {
-        font-size: 13px;
+      button {
+        height: 40px;
+        width: 100px;
+        margin-left: 20px;
+        line-height: 15px;
       }
-    }
-    .description {
-      font-size: 12px;
-      color: lightgray;
     }
   }
 }
