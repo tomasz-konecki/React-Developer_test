@@ -6,8 +6,8 @@ import DatePicker from "react-datepicker";
 import "./scss/App.scss";
 const axios = require("axios");
 
-const url = "http://idr.intevi.uk/api/readings";
-const id = "2f3fbe5ca313a4";
+const APIurl = "http://idr.intevi.uk/api/readings";
+const APIid = "2f3fbe5ca313a4";
 
 class App extends Component {
   constructor(props) {
@@ -28,7 +28,7 @@ class App extends Component {
 
   createQuery = () => {
     let { firstDate, lastDate, group } = this.state;
-    let query = `${url}?id=${id}&from=${firstDate}&to=${lastDate}&sort=1&group=${group}&sort=1`;
+    let query = `${APIurl}?id=${APIid}&from=${firstDate}&to=${lastDate}&sort=1&group=${group}&sort=1`;
     this.getData(query);
   };
 
@@ -37,9 +37,9 @@ class App extends Component {
     axios({
       method: "get",
       url
-    }).then(response => {
-      console.log(response.data);
-    });
+    })
+      .then(response => console.log(response.data))
+      .catch(err => console.log(err));
   };
 
   render() {
