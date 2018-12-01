@@ -3,44 +3,57 @@
 
 body {
   background: #222;
-  font-family: "Roboto", sans-serif;
+  font-family: "Imago", sans-serif;
   color: #adf;
 
   .App-container {
     padding: 70px;
-    .container {
-      padding: 70px 20px 0;
+
+    h4 {
+      color: #00c0ff;
+      font-weight: bold;
+      letter-spacing: 0.1em;
     }
+
     form {
       display: flex;
+      margin-top: 50px;
 
       .form-group {
         display: flex;
         label,
-        input {
-          margin-right: 10px;
-        }
-
-        input {
-          height: 26px;
-        }
-
+        input,
         select {
-          width: 200px;
-          height: 26px;
           margin-right: 20px;
         }
 
         input {
+          width: 170px;
+        }
+
+        label {
+          padding-top: 6px;
+        }
+
+        select {
+          width: 130px;
+          margin-right: 20px;
+          height: 40px;
+        }
+
+        input,
+        select {
           background: lightgray;
-          margin-bottom: 15px;
           &:focus {
             background: white;
           }
         }
       }
       button {
-        height: 26px;
+        height: 40px;
+        width: 100px;
+        margin-left: 20px;
+        line-height: 15px;
       }
     }
   }

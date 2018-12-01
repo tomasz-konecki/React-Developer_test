@@ -4,6 +4,8 @@ import { Form, Input, FormGroup, Container, Label, Button } from "reactstrap";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
 import "./scss/App.scss";
+import Loader from "./components/Loader";
+import Table from "./components/Table";
 const axios = require("axios");
 
 const APIurl = "http://idr.intevi.uk/api/readings";
@@ -12,7 +14,14 @@ const APIid = "2f3fbe5ca313a4";
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { firstDate: "", lastDate: "", group: "hour" };
+    this.state = {
+      firstDate: "",
+      lastDate: "",
+      group: "hour",
+      order: "ascending",
+      data: [],
+      isLoading: false
+    };
   }
 
   handleChange = e => {
@@ -23,12 +32,13 @@ class App extends Component {
 
   handleFormSubmit = e => {
     e.preventDefault();
-    this.createQuery();
+    this.setState({ isLoading: true }, () => this.createQuery());
   };
 
   createQuery = () => {
-    let { firstDate, lastDate, group } = this.state;
-    let query = `${APIurl}?id=${APIid}&from=${firstDate}&to=${lastDate}&sort=1&group=${group}&sort=1`;
+    let { firstDate, lastDate, group, order } = this.state;
+    let sort = order === "ascending" ? 1 : -1;
+    let query = `${APIurl}?id=${APIid}&from=${firstDate}&to=${lastDate}&sort=${sort}&group=${group}&sort=${sort}`;
     this.getData(query);
   };
 
@@ -38,41 +48,59 @@ class App extends Component {
       method: "get",
       url
     })
-      .then(response => console.log(response.data))
+      .then(response =>
+        this.setState({ data: response.data, isLoading: false })
+      )
       .catch(err => console.log(err));
   };
 
   render() {
+    let { isLoading, data } = this.state;
     return (
       <div className="App-container">
         <h4>React Developer test</h4>
-        <Container>
-          <Form onSubmit={this.handleFormSubmit}>
-            <FormGroup>
-              <Label for="firstDate">From: </Label>
-              <input
-                type="date"
-                name="firstDate"
-                onChange={this.handleChange}
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label for="lastDate">To: </Label>
-              <input type="date" name="lastDate" onChange={this.handleChange} />
-            </FormGroup>
-            <FormGroup>
-              <Label for="group-select">Group by:</Label>
-              <select name="group" onChange={this.handleChange}>
-                <option>hour</option>
-                <option>day</option>
-                <option>week</option>
-                <option>month</option>
-                <option>year</option>
-              </select>
-            </FormGroup>
-            <button type="submit">Submit</button>
-          </Form>
-        </Container>
+
+        <Form onSubmit={this.handleFormSubmit}>
+          <FormGroup>
+            <Label for="firstDate">From: </Label>
+            <Input type="date" name="firstDate" onChange={this.handleChange} />
+          </FormGroup>
+          <FormGroup>
+            <Label for="lastDate">To: </Label>
+            <Input type="date" name="lastDate" onChange={this.handleChange} />
+          </FormGroup>
+          <FormGroup>
+            <Label for="group">Group by:</Label>
+            <select
+              name="group"
+              className="form-control"
+              onChange={this.handleChange}
+            >
+              <option>hour</option>
+              <option>day</option>
+              <option>week</option>
+              <option>month</option>
+              <option>year</option>
+            </select>
+          </FormGroup>
+          <FormGroup>
+            <Label for="order">Order:</Label>
+            <select
+              name="order"
+              className="form-control"
+              onChange={this.handleChange}
+            >
+              <option>ascending</option>
+              <option>descending</option>
+            </select>
+          </FormGroup>
+          <button type="submit" className="btn btn-primary">
+            Submit
+          </button>
+        </Form>
+
+        {isLoading && <Loader />}
+        {data.length > 0 && <Table data={data} />}
       </div>
     );
   }
