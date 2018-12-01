@@ -43,7 +43,6 @@ class App extends Component {
   };
 
   getData = url => {
-    console.log(url);
     axios({
       method: "get",
       url
