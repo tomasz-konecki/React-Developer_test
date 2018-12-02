@@ -54,6 +54,7 @@
     "react-dom": "^16.2.0",
     "react-select": "^2.1.2",
     "reactstrap": "^6.5.0",
+    "recharts": "^1.4.1",
     "source-map-loader": "^0.2.3"
   },
   "bugs": {

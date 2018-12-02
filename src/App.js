@@ -6,6 +6,7 @@ import DatePicker from "react-datepicker";
 import "./scss/App.scss";
 import Loader from "./components/Loader";
 import Table from "./components/Table";
+import Diagram from "./components/Diagram";
 const axios = require("axios");
 
 const APIurl = "http://idr.intevi.uk/api/readings";
@@ -50,11 +51,14 @@ class App extends Component {
       .then(response =>
         this.setState({ data: response.data, isLoading: false })
       )
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err);
+        this.setState({ isLoading: false });
+      });
   };
 
   render() {
-    let { isLoading, data } = this.state;
+    let { isLoading, isError, data } = this.state;
     return (
       <div className="App-container">
         <h4>React Developer test</h4>
@@ -99,6 +103,7 @@ class App extends Component {
         </Form>
 
         {isLoading && <Loader />}
+        {data.length > 0 && <Diagram data={data} />}
         {data.length > 0 && <Table data={data} />}
       </div>
     );
